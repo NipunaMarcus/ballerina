@@ -221,7 +221,8 @@ public class BallerinaConnectorServiceImpl implements BallerinaConnectorService 
             }
         }
         BallerinaConnectorResponse response = new BallerinaConnectorResponse(request.getOrg(), request.getModule(),
-                request.getVersion(), request.getName(), request.getDisplayName(), ast, error, request.getBeta());
+                request.getVersion(), request.getName(), request.getDisplayName(), ast, error, request.getBeta(), 
+                request.getCategory());
         return CompletableFuture.supplyAsync(() -> response);
     }
 
@@ -309,7 +310,7 @@ public class BallerinaConnectorServiceImpl implements BallerinaConnectorService 
 
         }
         BallerinaRecordResponse response = new BallerinaRecordResponse(request.getOrg(), request.getModule(),
-                request.getVersion(), request.getName(), ast, error, request.getBeta());
+                request.getVersion(), request.getName(), ast, error, request.getBeta(), request.getCategory());
         return CompletableFuture.supplyAsync(() -> response);
     }
 
