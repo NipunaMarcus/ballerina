@@ -27,7 +27,6 @@ import org.ballerinalang.langserver.commons.workspace.WorkspaceDocumentException
 import org.ballerinalang.langserver.commons.workspace.WorkspaceDocumentManager;
 import org.ballerinalang.langserver.compiler.DocumentServiceKeys;
 import org.ballerinalang.langserver.compiler.LSModuleCompiler;
-import org.ballerinalang.langserver.compiler.common.LSCustomErrorStrategy;
 import org.ballerinalang.langserver.compiler.exception.CompilationFailedException;
 import org.ballerinalang.langserver.compiler.format.FormattingVisitorEntry;
 import org.ballerinalang.langserver.compiler.format.JSONGenerationException;
@@ -74,8 +73,7 @@ public class BallerinaTriggerModifyUtil {
                 .DocumentOperationContextBuilder(LSContextOperation.DOC_SERVICE_AST)
                 .withCommonParams(null, fileUri, documentManager)
                 .build();
-        LSModuleCompiler.getBLangPackage(astContext, documentManager, LSCustomErrorStrategy.class,
-                false, false, false);
+        LSModuleCompiler.getBLangPackage(astContext, documentManager, false, false);
         BLangPackage oldTree = astContext.get(DocumentServiceKeys.CURRENT_BLANG_PACKAGE_CONTEXT_KEY);
         String fileName = compilationPath.toFile().getName();
 
@@ -92,8 +90,7 @@ public class BallerinaTriggerModifyUtil {
                 .singletonList(new TextDocumentContentChangeEvent(newTextDoc.toString())));
 
         //remove unused imports
-        LSModuleCompiler.getBLangPackage(astContext, documentManager, LSCustomErrorStrategy.class,
-                false, false, false);
+        LSModuleCompiler.getBLangPackage(astContext, documentManager, false, false);
         BLangPackage updatedTree = astContext.get(DocumentServiceKeys.CURRENT_BLANG_PACKAGE_CONTEXT_KEY);
 
         UnusedNodeVisitor unusedNodeVisitor = new UnusedNodeVisitor(fileName, new HashMap<>());
@@ -120,7 +117,7 @@ public class BallerinaTriggerModifyUtil {
         documentManager.updateFile(compilationPath, Collections
                 .singletonList(new TextDocumentContentChangeEvent(newTextDoc.toString())));
 
-        astContext.put(BallerinaDocumentServiceImpl.UPDATED_SOURCE, newTextDoc.toString());
+//        astContext.put(BallerinaDocumentServiceImpl.UPDATED_SOURCE, newTextDoc.toString());
         return astContext;
     }
 
